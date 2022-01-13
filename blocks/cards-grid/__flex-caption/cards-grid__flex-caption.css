@@ -1,0 +1,7 @@
+.cards-grid__flex-caption {
+    max-width: 282px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 15px 31px 21px;
+}
