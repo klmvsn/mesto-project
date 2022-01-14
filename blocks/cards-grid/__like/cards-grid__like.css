@@ -1,5 +1,22 @@
 .cards-grid__like {
-    max-width: 22px;
-    max-height: 19px;
+    width: 22px;
+    height: 19px;
     align-self: center;
+    padding: 0;
+    border: none;
+    background-image: url(../../../images/like.svg);
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 22px 19px;
+}
+
+.cards-grid__like:hover {
+    opacity: .5;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.cards-grid__like:active {
+    background-image: url(../../../images/like-active.svg);
 }

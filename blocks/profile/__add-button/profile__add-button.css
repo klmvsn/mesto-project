@@ -12,7 +12,12 @@
     justify-self: end;
 }
 
-@media screen and (max-width: 767px) {
+.profile__add-button:hover {
+    opacity: .6;
+    transition: .3s;
+}
+
+@media screen and (max-width: 1099px) {
     .profile__add-button {
         justify-self: center;
         width: 282px;

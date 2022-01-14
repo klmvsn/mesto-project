@@ -3,7 +3,7 @@
     url(../fonts/Inter/Inter-Regular.woff) format('woff'),
     url(../fonts/Inter/Inter-Regular.woff2) format('woff2');
     font-family: 'Inter';
-  font-weight: 400;
+  font-weight: normal;
 }
 
 @font-face {
@@ -11,13 +11,13 @@
     url(../fonts/Inter/Inter-Bold.woff) format('woff'),
     url(../fonts/Inter/Inter-Bold.woff2) format('woff2');
     font-family: 'Inter';
-  font-weight: 900;
+  font-weight: bold;
 }
 
 @font-face {
   src:
-    url(../fonts/Inter/Inter-SemiBold.woff) format('woff'),
-    url(../fonts/Inter/Inter-SemiBold.woff2) format('woff2');
+    url(../fonts/Inter/Inter-Black.woff) format('woff'),
+    url(../fonts/Inter/Inter-Black.woff2) format('woff2');
     font-family: 'Inter';
-  font-weight: 600;
+  font-weight: 900;
 }

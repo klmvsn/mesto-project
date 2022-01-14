@@ -1,0 +1,35 @@
+.popup__toggle {
+    position: fixed;
+    /*середина экрана, минус половина высоты формы, минус отступ по макету, минус высота самого блока*/
+    top: calc(50% - 330px/2 - 8px - 32px); 
+    /*середина экрана, плюс половина длины формы, плюс отступ по макету*/
+    left: calc(50% + 430px/2 + 8px);
+    width: 32px;
+    height: 32px;
+    background-color: #000;
+    background-image: url(../../../images/form-toggle.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.popup__toggle:hover {
+    opacity: .6;
+    transition: .3s;
+}
+
+@media screen and (max-width: 767px) {
+    .popup__toggle {
+        background-size: 20px 20px;
+        width: 20px;
+        height: 20px;
+        /*середина экрана, минус половина высоты формы, минус отступ по макету, минус высота самого блока*/
+        top: calc(50% - 322px/2 - 16px - 20px);
+        /*середина экрана, плюс половина длины формы, минус длина самого блока*/
+        left: calc(50% + 282px/2 - 20px);
+    }
+}
