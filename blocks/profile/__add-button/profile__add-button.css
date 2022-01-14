@@ -20,7 +20,13 @@
 @media screen and (max-width: 1099px) {
     .profile__add-button {
         justify-self: center;
-        width: 282px;
+        width: 55%;
         background-size: 16px 16px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profile__add-button {
+        width: 100%;
     }
 }

@@ -9,12 +9,12 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: 22px 19px;
+    cursor: pointer;
 }
 
 .cards-grid__like:hover {
     opacity: .5;
     transition: .3s;
-    cursor: pointer;
 }
 
 .cards-grid__like:active {
