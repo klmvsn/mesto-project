@@ -4,16 +4,17 @@
     border: 1px solid #fff;
     cursor: pointer;
     padding: 0;
+    box-sizing: border-box;
     background-color: #000;
     background-image: url(../../../images/edit-button.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 10px 10px;
+    transition: .3s;
 }
 
 .profile__edit-button:hover {
     opacity: .6;
-    transition: .3s;
 }
 
 @media screen and (max-width: 767px) {

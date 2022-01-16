@@ -10,11 +10,11 @@
     height: 50px;
     width: 150px;
     justify-self: end;
+    transition: .3s;
 }
 
 .profile__add-button:hover {
     opacity: .6;
-    transition: .3s;
 }
 
 @media screen and (max-width: 1099px) {
