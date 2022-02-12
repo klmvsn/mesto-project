@@ -14,9 +14,6 @@
 }
 
 .cards-grid__like:hover {
-    opacity: .5;
+    opacity: .6;
 }
 
-.cards-grid__like:active {
-    background-image: url(../../../images/like-active.svg);
-}
