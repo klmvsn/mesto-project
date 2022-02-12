@@ -14,7 +14,7 @@
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .cards-grid__list {
         grid-template-columns: minmax(0,1fr);
     }

@@ -5,7 +5,7 @@
  Выполнен в рамках учебного курса Яндекс. Практикума
 
  ### Используемые технологии
- HTML, CSS, БЭМ, адаптивная вёрстка с использованием Flex/Grid и медиазапросов
+ HTML, CSS, JavaScript, БЭМ, адаптивная вёрстка с использованием Flex/Grid и медиазапросов
 
  ### Ссылка на GitHub Pages
- [https://klmvsn.github.io/mesto-project/]
+ https://klmvsn.github.io/mesto-project/

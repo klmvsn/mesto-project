@@ -19,7 +19,16 @@ addButton.addEventListener('click', () => popupOpen(addPopup));
 //закрытие окон по крестику
 popupToggle.forEach(toggle =>
     toggle.addEventListener('click', evt => 
-    evt.target.parentElement.parentElement.classList.remove('popup_opened')));
+    evt.target.parentElement.parentElement.classList.remove('popup_opened'))
+);
+
+//открытие попапа с фотографией
+function openImagePopup (imageLink, header) {
+    imagePopup.querySelector('.popup__image').setAttribute('src',imageLink);
+    imagePopup.querySelector('.popup__image').setAttribute('alt',header);
+    imagePopup.querySelector('.popup__image-capture').textContent = header;
+    popupOpen(imagePopup);
+}
 
 //поля формы заполнены по умолчанию
 const nameInput = editPopup.querySelector('#name');
@@ -79,17 +88,15 @@ function addInitialCard (name, link) {
 
     //открытие попапа с фотографией
     cardElement.querySelector('.cards-grid__image').addEventListener('click', () => {
-        imagePopup.querySelector('.popup__image').setAttribute('src',link);
-        imagePopup.querySelector('.popup__image').setAttribute('alt',name);
-        imagePopup.querySelector('.popup__image-capture').textContent = name;
-        popupOpen(imagePopup);
+        openImagePopup(link,name);
     })
+    //функционал лайка
     cardElement.querySelector('.cards-grid__like').addEventListener('click', function (evt) {
         evt.target.classList.toggle('cards-grid__like_active');
     })
+    //удаление карточки
     cardElement.querySelector('.cards-grid__delete-card').addEventListener('click', function (evt) {
-        const item = evt.target.closest('.cards-grid__item');
-        item.remove();
+       evt.target.closest('.cards-grid__item').remove();
     })
     cardsContainer.prepend(cardElement);
 }

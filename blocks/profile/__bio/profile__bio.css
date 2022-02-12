@@ -16,7 +16,7 @@
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
     .profile__bio {
         max-width: 282px;
         font-size: 14px;
