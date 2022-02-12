@@ -1,5 +1,5 @@
 const editPopup = document.querySelector('.popup_type_edit');
-const popupToggle = document.querySelectorAll('.popup__toggle');
+const popupToggles = document.querySelectorAll('.popup__toggle');
 const editButton = document.querySelector('.profile__edit-button');
 const submitButton = document.querySelector('.popup__button');
 const formPopup = document.querySelector('.popup__form');
@@ -9,15 +9,15 @@ const addPopup = document.querySelector('.popup_type_add');
 const imagePopup = document.querySelector('.popup_type_image');
 
 //открытие попапа
-function popupOpen(popup) {
+function openPopup(popup) {
     popup.classList.add('popup_opened');
 }
 
-editButton.addEventListener('click', () => popupOpen(editPopup));
-addButton.addEventListener('click', () => popupOpen(addPopup));
+editButton.addEventListener('click', () => openPopup(editPopup));
+addButton.addEventListener('click', () => openPopup(addPopup));
 
 //закрытие попапа по крестику
-popupToggle.forEach(toggle =>
+popupToggles.forEach(toggle =>
     toggle.addEventListener('click', evt =>
         evt.target.closest('.popup').classList.remove('popup_opened'))
 );
@@ -33,7 +33,7 @@ function openImagePopup(imageLink, header) {
     popupImage.setAttribute('src', imageLink);
     popupImage.setAttribute('alt', header);
     imagePopup.querySelector('.popup__image-capture').textContent = header;
-    popupOpen(imagePopup);
+    openPopup(imagePopup);
 }
 
 //поля формы редактирования заполнены по умолчанию
@@ -47,14 +47,14 @@ nameInput.value = profileName.textContent;
 bioInput.value = profileBio.textContent;
 
 //редактирование информации профиля
-function formSubmitHandler(evt) {
+function editProfileInfo(evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileBio.textContent = bioInput.value;
     closePopup(editPopup);
 }
 
-formPopup.addEventListener('submit', formSubmitHandler);
+formPopup.addEventListener('submit', editProfileInfo);
 
 //карточки
 const initialCards = [
