@@ -11,7 +11,7 @@ const submitButton = document.querySelector('.popup__button');
 
 //содержимое форм и попапов
 const formPopup = document.querySelector('.popup__form');
-const popupInput = addPopup.querySelectorAll('.popup__form-item');
+const popupInputs = addPopup.querySelectorAll('.popup__form-item');
 const nameInput = editPopup.querySelector('#name');
 const bioInput = editPopup.querySelector('#bio');
 const nameSubmit = addPopup.querySelector('#place');
@@ -74,7 +74,7 @@ function closePopup(popupName) {
 
 //очищение полей для дальнейшего нового ввода
 function resetInput () {
-    popupInput.forEach(item => item.value = '');
+    popupInputs.forEach(item => item.value = '');
 }
 
 //функционал попапа редактирования профиля
