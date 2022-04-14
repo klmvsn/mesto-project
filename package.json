@@ -1,0 +1,33 @@
+{
+  "name": "mesto-project",
+  "version": "0.0.1",
+  "description": "### О чем проект?  Проект, имитирующий социальную сеть, в которой можно выкладыватьи и оценивать фотографии.   Выполнен в рамках учебного курса Яндекс. Практикума",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist && webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klmvsn/mesto-project.git"
+  },
+  "author": "Sonya Klimova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klmvsn/mesto-project/issues"
+  },
+  "homepage": "https://github.com/klmvsn/mesto-project#readme",
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "babel-loader": "^8.2.4",
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.8.1"
+  },
+  "dependencies": {
+    "core-js": "^3.21.1"
+  }
+}

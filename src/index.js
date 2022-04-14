@@ -1,3 +1,5 @@
+
+
 //попапы
 const editPopup = document.querySelector('.popup_type_edit');
 const addPopup = document.querySelector('.popup_type_add');
@@ -55,9 +57,19 @@ const initialCards = [
     }
 ];
 
-//открытие попапа
+//открытие попапа и закрытие при нажатии на оверлей или Esc
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    popup.addEventListener('click', (evt) => {
+        if (evt.target.classList.contains('popup_opened')) {
+            closePopup(popup);
+        }
+    })
+    document.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+            closePopup(popup);
+        }
+    })
 }
 
 //закрытие попапа по крестику
@@ -67,13 +79,13 @@ popupToggles.forEach(toggle =>
     })
 );
 
-//закрытие попапа после нажатия Submit или Enter
+//закрытие попапа 
 function closePopup(popupName) {
     popupName.classList.remove('popup_opened');
 }
 
 //очищение полей для дальнейшего нового ввода
-function resetInput () {
+function resetInput() {
     popupInputs.forEach(item => item.value = '');
 }
 
@@ -101,7 +113,7 @@ function editProfileInfo(evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileBio.textContent = bioInput.value;
-    closePopup(editPopup);
+    closePopup(editPopup, evt);
 }
 
 //созранение информации из попапа редактирования
@@ -141,3 +153,47 @@ addPopup.addEventListener('submit', evt => {
     closePopup(addPopup);
     resetInput();
 })
+
+//валидация
+function showInputError(formElement, inputElement, errorMessage) {
+    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.add('popup__form-item_type_error');
+    errorElement.textContent = errorMessage;
+    errorElement.classList.add('popup__form-item-error_type_active');
+}
+
+function hideInputError(formElement, inputElement) {
+    const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+    inputElement.classList.remove('popup__form-item_type_error');
+    errorElement.classList.remove('popup__form-item-error_type_active');
+    errorElement.textContent = '';
+}
+
+function checkInputValidity(formElement, inputElement) {
+    if (!inputElement.validity.valid) {
+        showInputError(formElement, inputElement, inputElement.validationMessage);
+    } else {
+        hideInputError(formElement, inputElement);
+    }
+}
+
+function setEventListeners(formElement) {
+    const inputList = Array.from(formElement.querySelectorAll('.popup__form-item'));
+    inputList.forEach(inputElement => {
+        inputElement.addEventListener('input', () => {
+            checkInputValidity(formElement, inputElement);
+        });
+    });
+}
+
+function enableValidation() {
+    const formList = Array.from(document.querySelectorAll('.popup__form'));
+    formList.forEach(formElement => {
+        formElement.addEventListener('submit', (evt) => {
+            evt.preventDefault();
+        });
+        setEventListeners(formElement);
+    })
+}
+
+enableValidation();
