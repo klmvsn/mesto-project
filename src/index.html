@@ -8,18 +8,17 @@
   на которую можно добавлять и удалять фотографии, и ставить лайки">
   <meta name="keywords" content="Фотографии, контент, лайк">
   <meta name="author" content="Софья Климова">
-  <link rel="shortcut icon" href="images/avatar.jpg">
-  <link rel="stylesheet" href="pages/index.css">
+
   <title>Mesto</title>
 </head>
 
 <body class="page">
   <header class="header">
-    <img src="images/logo.svg" alt="Логотип проекта Mesto" class="header__logo">
+    <img src="<%=require('./images/logo.svg')%>" alt="Логотип проекта Mesto" class="header__logo">
   </header>
   <main class="main">
     <section class="profile">
-      <img src="images/avatar.jpg" alt="Аватар пользователя. Портрет Жака-Ива Кусто." class="profile__avatar">
+      <img src="<%=require('./images/avatar.jpg')%>" alt="Аватар пользователя. Портрет Жака-Ива Кусто." class="profile__avatar">
       <div class="profile__info">
         <div class="profile__info-row">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -47,42 +46,45 @@
   <footer class="footer">
     <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
   </footer>
-  <div class="popup popup_type_edit">
+  <div class="popup popup_type_edit" id="popup_edit">
     <div class="popup__container">
       <button type="button" class="popup__toggle"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="popup" action="#" class="popup__form">
+      <form name="popup" action="#" class="popup__form" novalidate>
         <fieldset class="popup__form-fieldset">
-          <input type="text" id="name" name="name" class="popup__form-item" placeholder="Жак-Ив Кусто">
-          <input type="text" id="bio" name="bio" class="popup__form-item" placeholder="Исследователь океана">
-          <input type="submit" class="popup__button" value="Сохранить"></input>
+          <input type="text" id="name" name="name" class="popup__form-item" placeholder="Жак-Ив Кусто" required minlength="2" maxlength="40">
+          <span class="popup__form-item-error name-error">Вы пропустили это поле.</span>
+          <input type="text" id="bio" name="bio" class="popup__form-item" placeholder="Исследователь океана" required minlength="2" maxlength="200">
+          <span class="popup__form-item-error bio-error">Введите адрес сайта.</span>
+          <button type="submit" class="popup__button">Сохранить</button>
         </fieldset>
       </form>
     </div>
   </div>
 
-  <div class="popup popup_type_add">
+  <div class="popup popup_type_add" id="popup_add">
     <div class="popup__container">
       <button type="button" class="popup__toggle"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form name="popup" action="#" class="popup__form">
+      <form name="popup" action="#" class="popup__form" novalidate>
         <fieldset class="popup__form-fieldset">
-          <input type="text" id="place" name="name" class="popup__form-item" placeholder="Название">
-          <input type="text" id="link" name="bio" class="popup__form-item" placeholder="Ссылка на картинку">
-          <input type="submit" class="popup__button" value="Создать"></input>
+          <input type="text" id="place" name="name" class="popup__form-item" placeholder="Название" required minlength="2" maxlength="30">
+          <span class="popup__form-item-error place-error">Вы пропустили это поле.</span>
+          <input type="url" id="link" name="bio" class="popup__form-item" placeholder="Ссылка на картинку" required>
+          <span class="popup__form-item-error link-error">Вы пропустили это поле.</span>
+          <button type="submit" class="popup__button">Создать</button>
         </fieldset>
       </form>
     </div>
   </div>
 
-  <div class="popup popup_type_image">
+  <div class="popup popup_type_image" id="popup_image">
     <div class="popup__container popup__container_type_image">
       <button type="button" class="popup__toggle"></button>
-      <img src="" alt="" class="popup__image">
-      <h2 class ="popup__image-capture"></h2>
+      <img src="#" alt="#" class="popup__image">
+      <h2 class="popup__image-caption"></h2>
     </div>
   </div>
-  <script src="index.js"></script>
 </body>
 
 </html>
