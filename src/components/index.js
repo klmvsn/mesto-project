@@ -3,6 +3,7 @@ import '../pages/index.css';
 import { createCard, initialCards } from './card.js';
 import { popups, editPopup, addPopup, closePopup, openPopup, editProfileInfo, resetInput, fillCurrentInputs } from './modal.js';
 import { hideAllErrors, settings, enableValidation } from './validate.js';
+import { processUserData, processCards, addNewCard } from './api.js';
 
 //кнопки
 const editButton = document.querySelector('.profile__edit-button');
@@ -45,15 +46,16 @@ addButton.addEventListener('click', () => {
 });
 
 //добавление новой карточки через форму
-addPopup.addEventListener('submit', evt => {
-    evt.preventDefault();
-    cardsContainer.prepend(createCard(nameSubmit.value, linkSubmit.value));
+addPopup.addEventListener('submit', () => {
+    addNewCard(nameSubmit.value, linkSubmit.value);
     closePopup(addPopup);
 })
 
 //добавление карточек из initialcards
-initialCards.forEach(item => cardsContainer.append(createCard(item.name, item.link)));
+//initialCards.forEach(item => cardsContainer.append(createCard(item.name, item.link)));
 
 //валидация
 enableValidation(settings);
 
+processUserData();
+processCards();

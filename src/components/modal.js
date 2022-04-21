@@ -1,5 +1,5 @@
-
 import { settings, controlButtonState } from "./validate.js";
+import { updateUserData } from "./api.js";
 
 //попапы
 export const popups = document.querySelectorAll('.popup');
@@ -45,16 +45,9 @@ export function openImagePopup(imageLink, header) {
     openPopup(imagePopup);
 }
 
-//обработка данных из input
-function setProfileData() {
-    profileName.textContent = nameInput.value;
-    profileBio.textContent = bioInput.value;
-}
-
 //редактирование информации профиля
-export function editProfileInfo(evt) {
-    evt.preventDefault();
-    setProfileData();
+export function editProfileInfo() {
+    updateUserData(nameInput.value, bioInput.value);
     closePopup(editPopup);
 }
 
