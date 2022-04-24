@@ -1,6 +1,7 @@
 .popup__form-item {
     border: none;
     width: 100%;
+    min-width: 358px;
     border-bottom: 1px solid rgba(0, 0, 0, .2);
     font-size: 14px;
     max-height: 14px;
@@ -41,6 +42,7 @@
     .popup__form-item {
         margin-bottom: 26px;
         padding-bottom: 13px;
+        min-width: auto;
     }
 
     .popup__form-item:last-of-type {

@@ -1,0 +1,20 @@
+.profile__avatar-edit::after {
+    display: none;
+    content: url("../../../images/edit-avatar.svg");
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    top: 47px;
+    left: 47px;
+}
+
+@media screen and (max-width: 1099px) {
+    .profile__avatar-edit::after {
+        left: 45%;
+    }
+}
+
+.profile__avatar:hover + .profile__avatar-edit::after {
+    display: block;
+    transition: .5s;
+}

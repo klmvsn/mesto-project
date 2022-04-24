@@ -1,4 +1,5 @@
 .cards-grid__delete-card {
+    display: none;
     background-image: url(../../../images/delete-icon.svg);
     background-color: transparent;
     background-position: center;
