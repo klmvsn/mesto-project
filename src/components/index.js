@@ -1,25 +1,23 @@
 import '../pages/index.css';
 
-import { createCard, initialCards } from './card.js';
-import { popups, editPopup, addPopup, closePopup, openPopup, editProfileInfo, resetInput, fillCurrentInputs } from './modal.js';
+import { popups, editPopup, addPopup, avatarPopup, closePopup, 
+    openPopup, editProfileInfo, resetInput, fillCurrentInputs, 
+    editAvatar, renderNewCard } from './modal.js';
 import { hideAllErrors, settings, enableValidation } from './validate.js';
-import { processUserData, processCards, addNewCard } from './api.js';
+import { getUserData, getCards } from './api.js';
 
 //кнопки
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
+const avatarEditButton = document.querySelector('.profile__avatar');
 
 //формы попапов
 const editForm = editPopup.querySelector('.popup__form');
-const addForm = addPopup.querySelector('.popup__form')
+const addForm = addPopup.querySelector('.popup__form');
+const avatarForm = avatarPopup.querySelector('.popup__form');
 
-//поля добавления карточки
-const nameSubmit = addPopup.querySelector('#place');
-const linkSubmit = addPopup.querySelector('#link');
 
-//поля карточек
-const cardsContainer = document.querySelector('.cards-grid__list');
-
+//закрытие попапов
 popups.forEach(popup => {
     popup.addEventListener('click', (evt) => {
         if (evt.target.classList.contains('popup_opened') ||
@@ -46,16 +44,21 @@ addButton.addEventListener('click', () => {
 });
 
 //добавление новой карточки через форму
-addPopup.addEventListener('submit', () => {
-    addNewCard(nameSubmit.value, linkSubmit.value);
-    closePopup(addPopup);
+addPopup.addEventListener('submit', renderNewCard);
+
+//форма редактирования аватара
+avatarEditButton.addEventListener('click', () => {
+    resetInput(avatarForm);
+    hideAllErrors(avatarPopup,settings);
+    openPopup(avatarPopup);
 })
 
-//добавление карточек из initialcards
-//initialCards.forEach(item => cardsContainer.append(createCard(item.name, item.link)));
+//изменение аватара
+avatarForm.addEventListener('submit', editAvatar);
 
 //валидация
 enableValidation(settings);
 
-processUserData();
-processCards();
+//загрузка данных профиля и карточек
+getUserData();
+getCards();

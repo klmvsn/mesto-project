@@ -18,7 +18,10 @@
   </header>
   <main class="main">
     <section class="profile">
-      <img src="<%=require('./images/avatar.jpg')%>" alt="Аватар пользователя" class="profile__avatar">
+      <div class="profile__avatar-section">
+        <img src="<%=require('./images/avatar.jpg')%>" alt="Аватар пользователя" class="profile__avatar">
+        <a href="#" class="profile__avatar-edit"></a>
+      </div>
       <div class="profile__info">
         <div class="profile__info-row">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -36,7 +39,10 @@
             <img src="" alt="" class="cards-grid__image">
             <div class="cards-grid__flex-caption">
               <h2 class="cards-grid__title"></h2>
-              <button type="button" class="cards-grid__like"></button>
+              <div class="cards-grid__like-area">
+                <button type="button" class="cards-grid__like"></button>
+                <span class="cards-grid__like-counter"></span>
+              </div>
             </div>
           </li>
         </template>
@@ -52,9 +58,11 @@
       <h2 class="popup__title">Редактировать профиль</h2>
       <form name="popup" action="#" class="popup__form" novalidate>
         <fieldset class="popup__form-fieldset">
-          <input type="text" id="name" name="name" class="popup__form-item" value="Жак-Ив Кусто" placeholder="Жак-Ив Кусто" required minlength="2" maxlength="40">
+          <input type="text" id="name" name="name" class="popup__form-item" value="Жак-Ив Кусто"
+            placeholder="Жак-Ив Кусто" required minlength="2" maxlength="40">
           <span class="popup__form-item-error name-error">Вы пропустили это поле.</span>
-          <input type="text" id="bio" name="bio" class="popup__form-item" value="Исследователь океана" placeholder="Исследователь океана" required minlength="2" maxlength="200">
+          <input type="text" id="bio" name="bio" class="popup__form-item" value="Исследователь океана"
+            placeholder="Исследователь океана" required minlength="2" maxlength="200">
           <span class="popup__form-item-error bio-error">Введите адрес сайта.</span>
           <button type="submit" class="popup__button">Сохранить</button>
         </fieldset>
@@ -68,11 +76,27 @@
       <h2 class="popup__title">Новое место</h2>
       <form name="popup" action="#" class="popup__form" novalidate>
         <fieldset class="popup__form-fieldset">
-          <input type="text" id="place" name="name" class="popup__form-item" placeholder="Название" required minlength="2" maxlength="30">
+          <input type="text" id="place" name="name" class="popup__form-item" placeholder="Название" required
+            minlength="2" maxlength="30">
           <span class="popup__form-item-error place-error">Вы пропустили это поле.</span>
           <input type="url" id="link" name="bio" class="popup__form-item" placeholder="Ссылка на картинку" required>
           <span class="popup__form-item-error link-error">Вы пропустили это поле.</span>
-          <button type="submit" class="popup__button">Создать</button>
+          <button type="submit" class="popup__button popup__button_create">Создать</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup_type_avatar-edit">
+    <div class="popup__container">
+      <button type="button" class="popup__toggle"></button>
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form name="popup" action="#" class="popup__form" novalidate>
+        <fieldset class="popup__form-fieldset">
+          <input type="url" id="avatar-link" name="avatar-link" class="popup__form-item" placeholder="Ссылка на аватар"
+            required>
+          <span class="popup__form-item-error avatar-link-error">Вы пропустили это поле.</span>
+          <button type="submit" class="popup__button">Сохранить</button>
         </fieldset>
       </form>
     </div>

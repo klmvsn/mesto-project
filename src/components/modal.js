@@ -1,11 +1,17 @@
 import { settings, controlButtonState } from "./validate.js";
-import { updateUserData } from "./api.js";
+import { patchProfileData, patchAvatar, postCard, renderLoading } from "./api.js";
 
 //попапы
 export const popups = document.querySelectorAll('.popup');
 export const editPopup = document.querySelector('.popup_type_edit');
 export const addPopup = document.querySelector('.popup_type_add');
+export const avatarPopup = document.querySelector('.popup_type_avatar-edit');
 const imagePopup = document.querySelector('.popup_type_image');
+
+//кнопки сохранить/создать
+const editPopupButton = editPopup.querySelector('.popup__button');
+const addPopupButton = addPopup.querySelector('.popup__button');
+const avatarPopupButton = avatarPopup.querySelector('.popup__button');
 
 //элемены попапа с картинкой
 const popupImage = imagePopup.querySelector('.popup__image');
@@ -16,6 +22,13 @@ const profileName = document.querySelector('.profile__name');
 const profileBio = document.querySelector('.profile__bio');
 const nameInput = editPopup.querySelector('#name');
 const bioInput = editPopup.querySelector('#bio');
+
+//поле аватара
+const avatarLink = avatarPopup.querySelector('#avatar-link');
+
+//поля добавления карточки
+const nameSubmit = addPopup.querySelector('#place');
+const linkSubmit = addPopup.querySelector('#link');
 
 //закрытие попапа 
 export function closePopup(popup) {
@@ -46,9 +59,30 @@ export function openImagePopup(imageLink, header) {
 }
 
 //редактирование информации профиля
-export function editProfileInfo() {
-    updateUserData(nameInput.value, bioInput.value);
+export function editProfileInfo(evt) {
+    evt.preventDefault();
+    renderLoading(true, editPopupButton);
+    patchProfileData(nameInput.value, bioInput.value);
     closePopup(editPopup);
+    renderLoading(false, editPopupButton);
+}
+
+//редактирование автара
+export function editAvatar(evt) {
+    evt.preventDefault();
+    renderLoading(true, avatarPopupButton);
+    patchAvatar(avatarLink.value);
+    closePopup(avatarPopup);
+    renderLoading(false, avatarPopupButton);
+}
+
+//создание новой карточки
+export function renderNewCard(evt) {
+    evt.preventDefault();
+    renderLoading(true, addPopupButton);
+    postCard(nameSubmit.value, linkSubmit.value);
+    closePopup(addPopup);
+    renderLoading(false, addPopupButton);
 }
 
 //настройка кнопки

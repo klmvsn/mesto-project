@@ -1,71 +1,24 @@
-import { createCard } from "./card.js";
+import { createCard, setLikesCounter } from "./card.js";
 
-const token = '74c00ac7-1a8f-4bac-9e3c-4553885ebfeb';
-const server = 'https://mesto.nomoreparties.co/v1/plus-cohort-9';
+const config = {
+    baseURL: 'https://mesto.nomoreparties.co/v1/plus-cohort-9',
+    headers: {
+        authorization: '74c00ac7-1a8f-4bac-9e3c-4553885ebfeb',
+        'Content-Type': 'application/json'
+    }
+}
 
 const userName = document.querySelector('.profile__name');
 const userBio = document.querySelector('.profile__bio');
 const userAvatar = document.querySelector('.profile__avatar');
-let userId;
 
 const cardsContainer = document.querySelector('.cards-grid__list');
 
-//запросы
-function getUserData() {
-    return fetch(`${server}/users/me`, {
-        headers: {
-            authorization: token,
-        }
-    })
-}
+let user;
 
-function getCards() {
-    return fetch(`${server}/cards`, {
-        headers: {
-            authorization: token,
-        }
-    })
-}
-
-function patchProfileData(name, bio) {
-    return fetch(`${server}/users/me`, {
-        method: 'PATCH',
-        headers: {
-            authorization: token,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: name,
-            about: bio
-          })
-    })
-}
-
-function postCard(name, link) {
-    return fetch(`${server}/cards`, {
-        method: 'POST',
-        headers: {
-            authorization: token,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: name,
-            link: link
-        })
-    })
-}
-
-export function deleteCard(id) {
-    return fetch(`${server}/cards/${id}`,{
-        method: 'DELETE',
-        headers: {
-            authorization: token
-        }
-    })
-}
 
 //обработка запросов
-function processRequest (res) {
+function processRequest(res) {
     if (res.ok) {
         return res.json();
     }
@@ -82,45 +35,125 @@ function renderUserData(data) {
     userAvatar.src = data.avatar;
 }
 
-export function processUserData() {
-    getUserData()
+//запросы
+export const getUserData = () => {
+    return fetch(`${config.baseURL}/users/me`, {
+        headers: config.headers
+    })
         .then(processRequest)
         .then(res => {
             renderUserData(res);
-            userId = res._id;
+            user = res;
         })
         .catch(printError);
-}
+};
 
-export function updateUserData(name, bio) {
-    patchProfileData(name, bio)
-        .then(processRequest)
-        .then(res => {
-            renderUserData(res);
-        })
-        .catch(printError)
-}
-
-export function processCards() {
-    getCards()
+export const getCards = () => {
+    return fetch(`${config.baseURL}/cards`, {
+        headers: config.headers
+    })
         .then(processRequest)
         .then(res => {
             res.forEach(card => {
-                cardsContainer.append(createCard(card.name, card.link, card.owner._id, userId));
+                cardsContainer.append(createCard(card, user._id));
             })
         })
         .catch(printError)
-}
+};
 
-export function addNewCard(name, link) {
-    postCard(name, link)
+export const patchProfileData = (name, bio) => {
+    return fetch(`${config.baseURL}/users/me`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify({
+            name: name,
+            about: bio
+        })
+    })
         .then(processRequest)
         .then(res => {
-            cardsContainer.append(createCard(res.name, res.link, res.owner._id));
+            renderUserData(res);
+        })
+        .catch(printError)
+};
+
+export const patchAvatar = (link) => {
+    return fetch(`${config.baseURL}/users/me/avatar`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify({
+            avatar: link
+        })
+    })
+        .then(processRequest)
+        .then(res => {
+            renderUserData(res);
         })
         .catch(printError)
 }
 
+export const postCard = (name, link) => {
+    return fetch(`${config.baseURL}/cards`, {
+        method: 'POST',
+        headers: config.headers,
+        body: JSON.stringify({
+            name: name,
+            link: link
+        })
+    })
+        .then(processRequest)
+        .then(card => {
+            cardsContainer.prepend(createCard(card, user._id));
+        })
+        .catch(printError)
+}
 
-//TO DO:
-// 1) При патче профиля продумать обработку ошибки в функции в modal
+export const deleteCard = (id) => {
+    return fetch(`${config.baseURL}/cards/${id}`, {
+        method: 'DELETE',
+        headers: config.headers
+    })
+        .then(processRequest)
+        .catch(printError);
+}
+
+export const putLike = (cardId, likes, likesCounter) => {
+    return fetch(`${config.baseURL}/cards/likes/${cardId}`, {
+        method: 'PUT',
+        headers: config.headers,
+        body: JSON.stringify({
+            likes: likes
+        })
+    })
+        .then(processRequest)
+        .then(res => {
+            setLikesCounter(likesCounter, res.likes);
+        })
+        .catch(printError)
+}
+
+export const deleteLike = (cardId, likesCounter) => {
+    return fetch(`${config.baseURL}/cards/likes/${cardId}`, {
+        method: 'DELETE',
+        headers: config.headers
+    })
+        .then(processRequest)
+        .then(res => {
+            setLikesCounter(likesCounter, res.likes);
+        })
+        .catch(printError)
+}
+
+export function renderLoading(isLoading, button) {
+    if (isLoading) {
+        button.textContent = 'Сохранение...';
+    }
+    else {
+        if (button.classList.contains('popup__button_create')) {
+            button.textContent = 'Создать';
+        }
+        else {
+            button.textContent = 'Сохранить';
+        }
+    }
+}
