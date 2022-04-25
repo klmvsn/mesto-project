@@ -147,6 +147,7 @@ export const deleteLike = (cardId, likesCounter) => {
 export function renderLoading(isLoading, button) {
     if (isLoading) {
         button.textContent = 'Сохранение...';
+        button.disabled = true;
     }
     else {
         if (button.classList.contains('popup__button_create')) {
@@ -155,5 +156,6 @@ export function renderLoading(isLoading, button) {
         else {
             button.textContent = 'Сохранить';
         }
+        button.disabled = false;
     }
 }
