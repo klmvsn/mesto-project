@@ -1,24 +1,36 @@
 import { openImagePopup } from './modal.js'
-import { deleteCard, putLike, deleteLike } from './api.js';
+import { deleteCard, putLike, deleteLike, processRequest, printError } from './api.js';
+
+export const cardsContainer = document.querySelector('.cards-grid__list');
 
 //шаблон карточки
 const cardTemplate = document.querySelector('.cards-grid__template').content;
 
 
-//функционал лайка
-function toggleLike(evt, cardId, likes, likesCounter) {
-    evt.target.classList.toggle('cards-grid__like_active');
-    if (evt.target.classList.contains('cards-grid__like_active')) {
-        putLike(cardId, likes, likesCounter);
-    }
-    else {
-        deleteLike(cardId, likesCounter);
-    }
-}
-
 //счетчик лайка
 export function setLikesCounter(likesCounter, likes) {
     likesCounter.textContent = likes.length;
+}
+
+//переключение лайка
+function toggleLike(evt, likesCounter, likes) {
+    evt.target.classList.toggle('cards-grid__like_active');
+    setLikesCounter(likesCounter, likes)
+}
+
+//функционал лайка
+function getLikeState(evt, cardId, likes) {
+    if (evt.target.classList.contains('cards-grid__like_active')) {
+        return deleteLike(cardId);
+    }
+    return putLike(cardId, likes);
+}
+
+function setLike(evt, cardId, likes, likesCounter) {
+    getLikeState(evt, cardId, likes)
+        .then(processRequest)
+        .then(res => toggleLike(evt, likesCounter, res.likes))
+        .catch(printError);
 }
 
 //удаление карточки
@@ -55,13 +67,15 @@ export function createCard(cardData, userId) {
 
     //нажатие лайка
     like.addEventListener('click', (evt) => {
-        toggleLike(evt, cardData._id, cardData.likes, likesCounter);
+        setLike(evt, cardData._id, cardData.likes, likesCounter);
     });
 
     //удаление карточки
     cardDeleteButton.addEventListener('click', (evt) => {
-        deleteCard(cardData._id);
-        removeCard(evt);
+        deleteCard(cardData._id)
+            .then(processRequest)
+            .then(() => removeCard(evt))
+            .catch(printError);
     });
 
     return cardElement;

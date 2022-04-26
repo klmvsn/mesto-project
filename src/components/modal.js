@@ -1,5 +1,6 @@
 import { settings, controlButtonState } from "./validate.js";
-import { patchProfileData, patchAvatar, postCard, renderLoading } from "./api.js";
+import { cardsContainer, createCard } from "./card.js";
+import { patchProfileData, patchAvatar, postCard, renderLoading, processRequest, printError } from "./api.js";
 
 //попапы
 export const popups = document.querySelectorAll('.popup');
@@ -25,6 +26,9 @@ const bioInput = editPopup.querySelector('#bio');
 
 //поле аватара
 const avatarLink = avatarPopup.querySelector('#avatar-link');
+const userAvatar = document.querySelector('.profile__avatar');
+
+let user;
 
 //поля добавления карточки
 const nameSubmit = addPopup.querySelector('#place');
@@ -58,38 +62,61 @@ export function openImagePopup(imageLink, header) {
     openPopup(imagePopup);
 }
 
+export function renderUserData(data) {
+    user = data;
+    profileName.textContent = data.name;
+    profileBio.textContent = data.about;
+    userAvatar.src = data.avatar;
+}
+
 //редактирование информации профиля
 export function editProfileInfo(evt) {
     evt.preventDefault();
     renderLoading(true, editPopupButton);
-    patchProfileData(nameInput.value, bioInput.value);
-    closePopup(editPopup);
-    renderLoading(false, editPopupButton);
+    patchProfileData(nameInput.value, bioInput.value)
+        .then(processRequest)
+        .then(res => {
+            renderUserData(res);
+            closePopup(editPopup);
+            
+        })
+        .catch(printError)
+        .finally(() => renderLoading(false, editPopupButton));
 }
 
 //редактирование автара
 export function editAvatar(evt) {
     evt.preventDefault();
     renderLoading(true, avatarPopupButton);
-    patchAvatar(avatarLink.value);
-    closePopup(avatarPopup);
-    renderLoading(false, avatarPopupButton);
+    patchAvatar(avatarLink.value)
+        .then(processRequest)
+        .then(res => {
+            renderUserData(res);
+            closePopup(avatarPopup);
+        })
+        .catch(printError)
+        .finally(() => renderLoading(false, avatarPopupButton));
 }
 
 //создание новой карточки
 export function renderNewCard(evt) {
     evt.preventDefault();
     renderLoading(true, addPopupButton);
-    postCard(nameSubmit.value, linkSubmit.value);
-    closePopup(addPopup);
-    renderLoading(false, addPopupButton);
+    postCard(nameSubmit.value, linkSubmit.value)
+        .then(processRequest)
+        .then(card => {
+            cardsContainer.prepend(createCard(card, user._id));
+            closePopup(addPopup);
+        })
+        .catch(printError)
+        .finally(() => renderLoading(false, addPopupButton));
 }
 
 //настройка кнопки
 function setButtonState(form) {
     const submitButton = form.querySelector(settings.submitButtonSelector);
     const inputList = Array.from(form.querySelectorAll(settings.inputSelector));
-    controlButtonState(submitButton, inputList, settings)
+    controlButtonState(submitButton, inputList, settings);
 }
 
 //очищение полей для дальнейшего нового ввода

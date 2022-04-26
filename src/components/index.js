@@ -2,9 +2,10 @@ import '../pages/index.css';
 
 import { popups, editPopup, addPopup, avatarPopup, closePopup, 
     openPopup, editProfileInfo, resetInput, fillCurrentInputs, 
-    editAvatar, renderNewCard } from './modal.js';
+    editAvatar, renderNewCard, renderUserData } from './modal.js';
 import { hideAllErrors, settings, enableValidation } from './validate.js';
-import { getUserData, getCards } from './api.js';
+import { createCard, cardsContainer } from './card.js';
+import { printError, getUserData, getCards } from './api.js';
 
 //кнопки
 const editButton = document.querySelector('.profile__edit-button');
@@ -15,7 +16,6 @@ const avatarEditButton = document.querySelector('.profile__avatar');
 const editForm = editPopup.querySelector('.popup__form');
 const addForm = addPopup.querySelector('.popup__form');
 const avatarForm = avatarPopup.querySelector('.popup__form');
-
 
 //закрытие попапов
 popups.forEach(popup => {
@@ -60,5 +60,11 @@ avatarForm.addEventListener('submit', editAvatar);
 enableValidation(settings);
 
 //загрузка данных профиля и карточек
-getUserData();
-getCards();
+Promise.all([getUserData(),getCards()])
+    .then(([profile,cards]) => {
+        renderUserData(profile);
+        cards.forEach(card => {
+            cardsContainer.append(createCard(card, profile._id));
+        });
+    })
+    .catch(printError);
