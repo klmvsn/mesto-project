@@ -1,5 +1,3 @@
-import { createCard, setLikesCounter } from "./card.js";
-
 const config = {
     baseURL: 'https://mesto.nomoreparties.co/v1/plus-cohort-9',
     headers: {
@@ -8,31 +6,16 @@ const config = {
     }
 }
 
-const userName = document.querySelector('.profile__name');
-const userBio = document.querySelector('.profile__bio');
-const userAvatar = document.querySelector('.profile__avatar');
-
-const cardsContainer = document.querySelector('.cards-grid__list');
-
-let user;
-
-
 //обработка запросов
-function processRequest(res) {
+export function processRequest(res) {
     if (res.ok) {
         return res.json();
     }
     return Promise.reject(res.status);
 }
 
-function printError(err) {
+export function printError(err) {
     console.log(`Ошибка: ${err}`);
-}
-
-function renderUserData(data) {
-    userName.textContent = data.name;
-    userBio.textContent = data.about;
-    userAvatar.src = data.avatar;
 }
 
 //запросы
@@ -41,11 +24,6 @@ export const getUserData = () => {
         headers: config.headers
     })
         .then(processRequest)
-        .then(res => {
-            renderUserData(res);
-            user = res;
-        })
-        .catch(printError);
 };
 
 export const getCards = () => {
@@ -53,12 +31,6 @@ export const getCards = () => {
         headers: config.headers
     })
         .then(processRequest)
-        .then(res => {
-            res.forEach(card => {
-                cardsContainer.append(createCard(card, user._id));
-            })
-        })
-        .catch(printError)
 };
 
 export const patchProfileData = (name, bio) => {
@@ -70,11 +42,6 @@ export const patchProfileData = (name, bio) => {
             about: bio
         })
     })
-        .then(processRequest)
-        .then(res => {
-            renderUserData(res);
-        })
-        .catch(printError)
 };
 
 export const patchAvatar = (link) => {
@@ -85,11 +52,6 @@ export const patchAvatar = (link) => {
             avatar: link
         })
     })
-        .then(processRequest)
-        .then(res => {
-            renderUserData(res);
-        })
-        .catch(printError)
 }
 
 export const postCard = (name, link) => {
@@ -101,11 +63,6 @@ export const postCard = (name, link) => {
             link: link
         })
     })
-        .then(processRequest)
-        .then(card => {
-            cardsContainer.prepend(createCard(card, user._id));
-        })
-        .catch(printError)
 }
 
 export const deleteCard = (id) => {
@@ -113,11 +70,9 @@ export const deleteCard = (id) => {
         method: 'DELETE',
         headers: config.headers
     })
-        .then(processRequest)
-        .catch(printError);
 }
 
-export const putLike = (cardId, likes, likesCounter) => {
+export const putLike = (cardId, likes) => {
     return fetch(`${config.baseURL}/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: config.headers,
@@ -125,23 +80,13 @@ export const putLike = (cardId, likes, likesCounter) => {
             likes: likes
         })
     })
-        .then(processRequest)
-        .then(res => {
-            setLikesCounter(likesCounter, res.likes);
-        })
-        .catch(printError)
 }
 
-export const deleteLike = (cardId, likesCounter) => {
+export const deleteLike = (cardId) => {
     return fetch(`${config.baseURL}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: config.headers
     })
-        .then(processRequest)
-        .then(res => {
-            setLikesCounter(likesCounter, res.likes);
-        })
-        .catch(printError)
 }
 
 export function renderLoading(isLoading, button) {
